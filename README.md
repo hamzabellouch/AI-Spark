@@ -129,23 +129,6 @@ AI Spark.exe
 
 ---
 
-## Current Release
-
-<h3 align="center">AI Spark v0.0.1-alpha</h3>
-
-### Changes — June 16, 2026
-
-* Initial release (`0.0.1-alpha`)
-* Created the project base
-
-### Build Status
-
-```bash
-BUILD SUCCESSFUL
-```
-
----
-
 ## Roadmap
 
 * Linux support
