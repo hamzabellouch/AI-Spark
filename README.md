@@ -1,58 +1,173 @@
-# ⚡ AI Spark - Local Multi-Model AI Orchestrator
+# AI Spark
 
-AI Spark is a local FastAPI web interface that allows you to simultaneously broadcast a query to multiple AI chat interfaces (ChatGPT, Gemini, DeepSeek) running inside your own web browser (Brave, Chrome, Edge, Firefox), view and compare their results side-by-side in a beautiful grid layout, and generate a unified, synthesized response via Claude.
+<p align="center">
+  <img src="assets/logo.png" alt="AI Spark Logo" width="120">
+</p>
 
-Because it controls your local web browser directly, **AI Spark is 100% private, free, and does not require paid API keys**. It leverages your existing browser logins, cookies, and active sessions.
+<h3 align="center">One Prompt. Multiple AI Models. One Unified Answer.</h3>
 
----
+<p align="center">
+Compare responses from multiple AI models side-by-side and generate a final unified answer.
+</p>
 
-## 🎨 Key Features
 
-*   ⚡ **Simultaneous Broadcast:** Write one prompt and send it to ChatGPT, Gemini, and DeepSeek concurrently.
-*   🖥️ **Comparison Grid:** Compare answers side-by-side in a modern, responsive layout that automatically adjusts to the number of active models.
-*   🧠 **Claude Synthesis:** Automatically feed all collected answers into Claude to generate a unified, highly detailed, and optimized synthesis.
-*   📁 **Local History & Sessions:** Save and search past conversations locally via a lightweight SQLite database.
-*   🌍 **Multi-Language & RTL:** Built-in support for Arabic, English, and French, with automatic LTR/RTL switching.
-*   🌓 **Premium UI/UX:** Responsive dark/light theme, modern typography (Tajawal & Inter), and animated splash screen.
 
----
+## Overview
 
-## 🛠️ System Requirements
+AI Spark is a desktop AI platform that allows users to send a single prompt to multiple AI models simultaneously, compare responses, and generate a consolidated answer.
 
-1.  **Python 3.11** or newer.
-2.  **Playwright** library (installed automatically on startup).
-3.  Any supported browser installed on your machine:
-    *   **Brave Browser** (Recommended)
-    *   **Google Chrome**
-    *   **Microsoft Edge**
-    *   **Mozilla Firefox**
+The platform is designed to help students, researchers, developers, and professionals benefit from the strengths of different AI systems without switching between multiple applications.
 
----
+Currently available for Windows.
 
-## 🚀 Quick Start & Setup
 
-To run the application, choose the launcher script corresponding to your operating system:
 
-*   **Windows:** Double-click [run_windows.bat](file:///E:/AI%20spark/run_windows.bat). See the [Windows User Guide](file:///E:/AI%20spark/WINDOWS.md) for more details.
-*   **macOS:** Double-click [run_macos.command](file:///E:/AI%20spark/run_macos.command). See the [macOS User Guide](file:///E:/AI%20spark/MACOS.md) for more details.
-*   **Linux:** Execute [run_linux.sh](file:///E:/AI%20spark/run_linux.sh). See the [Linux User Guide](file:///E:/AI%20spark/LINUX.md) for more details.
+## Features
 
-On startup, the script will automatically install dependencies from `requirements.txt`, launch your selected browser in remote debugging mode (reusing your daily cookies and sessions), and open the dashboard at `http://127.0.0.1:8000`.
+### Multiple AI Models
 
----
+Send prompts to multiple AI assistants simultaneously:
 
-## 📁 Repository Structure
+* ChatGPT
+* Gemini
+* DeepSeek
+* Claude
 
-*   `main.py` - FastAPI backend server.
-*   `browser.py` - Browser controller via Playwright and Chrome DevTools Protocol (CDP).
-*   `agents.py` - Agent automation scripts for prompt typing and submission.
-*   `utils.py` - DOM parsing and scraping utility functions.
-*   `db.py` - Database initialization and session management.
-*   `static/` - Stylesheets (`style.css`), app logic (`app.js`), and logo icons.
-*   `templates/` - HTML index layout template.
+### Instant Mode
 
----
+Interact directly with a single AI model for faster responses.
 
-## 🔒 Privacy & Security
+Supported providers:
 
-AI Spark runs 100% locally. The codebase **does not** collect, store, or transmit your credentials, cookies, or browser profiles to any external servers. Your chat history is saved in a local SQLite file (`chat_history.db`) on your own computer.
+* ChatGPT
+* Gemini
+* DeepSeek
+
+### DeepThink Mode
+
+Broadcast a prompt to all available AI assistants and generate a final synthesized answer using Claude.
+
+### Live Search
+
+Quickly find previous conversations using the integrated sidebar search.
+
+### Chat History Management
+
+* Automatic conversation saving
+* History browsing
+* One-click history clearing
+
+### Collapsible Sidebar
+
+A modern sidebar with smooth expand/collapse functionality for a cleaner workspace.
+
+### Multilingual Interface
+
+Supported languages:
+
+* English
+* Arabic
+* French
+
+### Modern User Interface
+
+* Unified dark theme
+* Transparent header bar
+* Responsive chat layout
+* Optimized workspace experience
+
+### Browser Integration
+
+AI Spark can connect to existing browser sessions when available, avoiding unnecessary browser restarts and preserving active tabs.
+
+
+
+## Screenshots
+
+Add screenshots here.
+
+```text
+screenshots/home.png
+screenshots/chat.png
+screenshots/deepthink.png
+```
+
+
+
+## Installation
+
+### Windows
+
+1. Download the latest release.
+2. Extract the archive.
+3. Run:
+
+```bash
+AI Spark.exe
+```
+
+
+
+## Requirements
+
+* Windows 10 or Windows 11
+* Internet connection
+* Supported AI service access
+
+
+
+## Workflow
+
+1. Enter your prompt.
+2. Select a mode:
+
+   * Instant Mode
+   * DeepThink Mode
+3. Submit your request.
+4. Review AI responses.
+5. Receive the final synthesized answer.
+
+
+
+## Current Release
+
+<h3 align="center">AI Spark v0.0.1-alpha</h3>
+
+### Changes — June 16, 2026
+
+* Initial release (`0.0.1-alpha`)
+* Created the project base
+
+### Build Status
+
+```bash
+BUILD SUCCESSFUL
+```
+
+
+
+## Roadmap
+
+* Linux support
+* macOS support
+* Additional AI providers
+* File analysis
+* Voice interaction
+* Cloud synchronization
+* Advanced search capabilities
+
+
+
+## Author
+
+Hamza Bellouch
+
+GitHub: https://github.com/hamzabellouch
+
+LinkedIn: https://www.linkedin.com/in/hamzabellouch
+
+
+
+## License
+
+See the LICENSE file for licensing information.
