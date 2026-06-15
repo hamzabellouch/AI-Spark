@@ -390,13 +390,11 @@ class BrowserController:
 
         # Use the default User Data directory directly to leverage existing logins, cookies, and extensions
         profile_dir = self.get_default_user_data_dir()
-        if not profile_dir:
-            # Fallback to isolated workspace profile if default path cannot be resolved
-            workspace_dir = os.path.dirname(os.path.abspath(__file__))
-            clean_name = "".join([c if c.isalnum() else "_" for c in self.browser_name])
-            profile_dir = os.path.join(workspace_dir, "profiles", clean_name)
-            os.makedirs(profile_dir, exist_ok=True)
-            print(f"Could not find default User Data path. Falling back to isolated profile: {profile_dir}")
+        if not profile_dir or not os.path.exists(profile_dir):
+            raise FileNotFoundError(
+                f"تعذر العثور على مجلد بيانات المستخدم الافتراضي للمتصفح ({self.browser_name}). "
+                "تم إيقاف إنشاء ملفات تعريف مؤقتة محلياً لتجنب استهلاك مساحة القرص."
+            )
         else:
             print(f"Using default User Data path: {profile_dir}")
 
@@ -436,11 +434,11 @@ class BrowserController:
                 
                 if self.browser_name == "firefox":
                     profile_dir = self.get_firefox_default_profile_dir()
-                    if not profile_dir:
-                        workspace_dir = os.path.dirname(os.path.abspath(__file__))
-                        profile_dir = os.path.join(workspace_dir, "profiles", "firefox")
-                        os.makedirs(profile_dir, exist_ok=True)
-                        print(f"Could not find default Firefox profile. Using isolated: {profile_dir}")
+                    if not profile_dir or not os.path.exists(profile_dir):
+                        raise FileNotFoundError(
+                            "تعذر العثور على ملف التعريف الافتراضي لمتصفح Firefox. "
+                            "تم إيقاف إنشاء ملفات تعريف مؤقتة محلياً لتجنب استهلاك مساحة القرص."
+                        )
                     else:
                         print(f"Using default Firefox profile: {profile_dir}")
                     executable = self.find_browser_executable()
@@ -456,7 +454,17 @@ class BrowserController:
                     self.context = await self.playwright.firefox.launch_persistent_context(**launch_options)
                     self.browser = self.context.browser
                 else:
-                    self.browser = await self.playwright.chromium.connect_over_cdp(f"http://127.0.0.1:{self.port}", timeout=10000)
+                    try:
+                        self.browser = await self.playwright.chromium.connect_over_cdp(
+                            f"http://127.0.0.1:{self.port}",
+                            timeout=10000,
+                            no_defaults=True
+                        )
+                    except TypeError:
+                        self.browser = await self.playwright.chromium.connect_over_cdp(
+                            f"http://127.0.0.1:{self.port}",
+                            timeout=10000
+                        )
                     self.context = self.browser.contexts[0]
 
                 print(f"Playwright successfully connected to {self.browser_name}.")

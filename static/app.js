@@ -657,6 +657,14 @@ async function initAITabs() {
             console.log("Browser disconnected or AI tabs missing. Automatically initializing...");
             // Call launchBrowser silently on startup/load. If the port is open, this connects Playwright and opens any missing tabs.
             await launchBrowser(false, true);
+        } else {
+            // Browser is already connected. Reset open tabs silently to start on a new chat.
+            console.log("Browser is connected. Resetting tabs to start with a new chat...");
+            try {
+                await fetch("/api/browser/new_chat", { method: "POST" });
+            } catch (e) {
+                console.error("Failed to reset browser tabs for new chat:", e);
+            }
         }
     } catch (err) {
         console.error("Auto tab initialization failed:", err);
@@ -734,11 +742,9 @@ async function loadHistory() {
         if (data.status === "success" && data.history) {
             chatHistory = data.history;
             
-            // If there's existing history, let's set currentSessionId to the most recent session's ID
-            if (chatHistory.length > 0) {
-                const lastTurn = chatHistory[chatHistory.length - 1];
-                currentSessionId = lastTurn.session_id || lastTurn.id.toString();
-            }
+            // Do not load the last active chat on startup/load.
+            // This ensures we always start on a clean "New Chat" screen.
+            currentSessionId = Date.now().toString();
             
             renderActiveSession();
             renderSidebarHistory(chatHistory);
@@ -1000,7 +1006,7 @@ function renderTurn(turnData) {
     
     // ChatGPT
     if (!turnData.agents.includes("chatgpt")) {
-        setupCard("chatgpt", `<em style="color: var(--text-muted);">${translations[currentLang].statusDisabled}</em>`);
+        setupCard("chatgpt", null);
     } else if (turnData.responses && turnData.responses.chatgpt) {
         setupCard("chatgpt", formatMarkdown(turnData.responses.chatgpt));
     } else {
@@ -1009,7 +1015,7 @@ function renderTurn(turnData) {
     
     // Gemini
     if (!turnData.agents.includes("gemini")) {
-        setupCard("gemini", `<em style="color: var(--text-muted);">${translations[currentLang].statusDisabled}</em>`);
+        setupCard("gemini", null);
     } else if (turnData.responses && turnData.responses.gemini) {
         setupCard("gemini", formatMarkdown(turnData.responses.gemini));
     } else {
@@ -1018,7 +1024,7 @@ function renderTurn(turnData) {
     
     // DeepSeek
     if (!turnData.agents.includes("deepseek")) {
-        setupCard("deepseek", `<em style="color: var(--text-muted);">${translations[currentLang].statusDisabled}</em>`);
+        setupCard("deepseek", null);
     } else if (turnData.responses && turnData.responses.deepseek) {
         setupCard("deepseek", formatMarkdown(turnData.responses.deepseek));
     } else {

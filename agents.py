@@ -22,8 +22,8 @@ class AIAgents:
         if file_paths:
             await self.upload_files(page, file_paths)
             
-        # Find ChatGPT textarea
-        textarea = page.locator('textarea#prompt-textarea, textarea[placeholder*="ChatGPT"], textarea, div[contenteditable="true"]').first
+        # Find ChatGPT textarea (prioritizing prompt-textarea ID)
+        textarea = page.locator('#prompt-textarea, [placeholder*="Message ChatGPT"], [placeholder*="ChatGPT"], textarea').first
         await textarea.wait_for(state="visible", timeout=10000)
         await textarea.focus()
         await textarea.fill(message)
@@ -33,8 +33,20 @@ class AIAgents:
         await textarea.press("Backspace")
         await asyncio.sleep(0.5)
         
-        # Send
-        await page.keyboard.press("Enter")
+        # Click the send button if enabled, otherwise press Enter
+        send_btn = page.locator('button[data-testid="send-button"], button[aria-label="Send prompt"], button[data-testid="fruitjuice-send-button"]').first
+        try:
+            # Wait up to 1 second for the send button to become enabled/visible
+            for _ in range(5):
+                if await send_btn.is_visible() and await send_btn.is_enabled():
+                    await send_btn.click()
+                    return
+                await asyncio.sleep(0.2)
+            # Fallback to Enter key
+            await page.keyboard.press("Enter")
+        except Exception as e:
+            print(f"Error clicking send button, trying Enter: {e}")
+            await page.keyboard.press("Enter")
 
     async def send_message_gemini(self, page, message, file_paths=None):
         if file_paths:
