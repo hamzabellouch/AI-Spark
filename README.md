@@ -134,7 +134,7 @@ run_macos.command
 ### <a name="Copyright©2026"></a> Copyright © 2026
 
 Thank you for engaging with us. For inquiries or collaboration, please contact:  
-tknohamzacontact@gmail.com
+hamzabellouchcontact@gmail.com
 
 Stay connected and follow us on:  
 [Facebook](https://facebook.com/hamzabellouch1) | [Instagram](https://instagram.com/hamzabellouch0) | [Twitter](https://twitter.com/hamzabellouch0) | [Telegram](https://t.me/hammzabellouch) | [LinkedIn](https://www.linkedin.com/in/hamzabellouch)
